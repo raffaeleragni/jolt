@@ -55,20 +55,11 @@ public class ServerContainer implements Closeable {
     serverSocket.ifPresent(socket -> {
       try (var s = socket.accept()) {
         consumeInputStream(s);
-      } catch (SocketException e) {
-        handleAcceptSocketException(e);
       } catch (IOException | RuntimeException e) {
-        LOG.log(WARNING, "Socket accept() error", e);
+        // Do not trap these exceptions as the accept socket
+        // will keep running
       }
     });
-  }
-
-  private void handleAcceptSocketException(SocketException e) {
-    var socketWasClosed = e.getMessage().toLowerCase().equals("socket closed");
-    // If the server socket was closed before could accept any other connection.
-    // This error always happens when the server socket is closed, so it's accounted for?
-    if (!socketWasClosed)
-      LOG.log(WARNING, "Socket accept() error", e);
   }
 
   private void consumeInputStream(final Socket s) throws IOException {
