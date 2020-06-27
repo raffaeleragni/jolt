@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.stream.Collectors;
 import org.mockito.invocation.InvocationOnMock;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 public final class StringStreamer {
 

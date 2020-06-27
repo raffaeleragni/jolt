@@ -3,9 +3,7 @@ package com.github.raffaeleragni.jolt;
 import static com.github.raffaeleragni.jolt.PortChecker.portOccupied;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.function.Consumer;
 import static org.hamcrest.CoreMatchers.is;
@@ -14,9 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class ServerContainerTest {

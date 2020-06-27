@@ -1,7 +1,6 @@
 package com.github.raffaeleragni.jolt;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,10 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 import static java.util.Optional.empty;
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-public class GSONTransformer {
+public class GSONTransformer implements Transformer {
 
   private final Gson gson;
 
@@ -21,6 +18,7 @@ public class GSONTransformer {
     this.gson = gson;
   }
 
+  @Override
   public Envelope envelope(InputStream message) {
 
     try (var reader = gson.newJsonReader(new InputStreamReader(message, UTF_8))) {
@@ -62,6 +60,7 @@ public class GSONTransformer {
     }
   }
 
+  @Override
   public <T> T parse(InputStream message, Class<T> clazz) {
 
     try (var reader = gson.newJsonReader(new InputStreamReader(message, UTF_8))) {

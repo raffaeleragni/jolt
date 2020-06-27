@@ -1,6 +1,5 @@
 package com.github.raffaeleragni.jolt;
 
-import com.github.raffaeleragni.jolt.CheckedExceptionWrapper;
 import com.github.raffaeleragni.jolt.CheckedExceptionWrapper.VoidWrapper;
 import com.github.raffaeleragni.jolt.CheckedExceptionWrapper.Wrapper;
 import java.io.IOException;

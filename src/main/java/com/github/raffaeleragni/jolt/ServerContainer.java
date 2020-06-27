@@ -1,19 +1,17 @@
 package com.github.raffaeleragni.jolt;
 
-import java.net.ServerSocket;
-import java.util.Optional;
-import static java.util.Optional.empty;
 import static com.github.raffaeleragni.jolt.CheckedExceptionWrapper.exwrap;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Objects;
+import java.util.Optional;
+import static java.util.Optional.empty;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import static java.util.logging.Level.WARNING;
 import java.util.logging.Logger;
 
 public class ServerContainer implements Closeable {
