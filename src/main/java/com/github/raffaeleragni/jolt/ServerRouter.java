@@ -38,7 +38,7 @@ public class ServerRouter {
   public <T> void register(String route, BiConsumer<Envelope, T> consumer, Class<T> clazz) {
     fullConsumers.put(route,
       (envelope, message) ->
-        consumer.accept(envelope, transformer.transform(message, clazz)));
+        consumer.accept(envelope, transformer.parse(message, clazz)));
   }
 
 }
