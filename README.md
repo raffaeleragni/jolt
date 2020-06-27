@@ -1,2 +1,2 @@
-# jsot
-json over tcp
+# jolt
+json over lightweight tcp
