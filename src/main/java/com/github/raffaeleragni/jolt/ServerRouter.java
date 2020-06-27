@@ -19,12 +19,14 @@ public class ServerRouter {
     this.transformer = transformer;
   }
 
-  public void route(String route, Envelope envelope) {
-    Optional.ofNullable(envelopeConsumers.get(route))
-      .ifPresent(consumer -> consumer.accept(envelope));
+  public void route(InputStream inputStream) {
+    var envelope = transformer.envelope(inputStream);
+    route(envelope.route, envelope, inputStream);
   }
 
-  public <T> void route(String route, Envelope envelope, InputStream message) {
+  private <T> void route(String route, Envelope envelope, InputStream message) {
+    Optional.ofNullable(envelopeConsumers.get(route))
+      .ifPresent(consumer -> consumer.accept(envelope));
     Optional.ofNullable(fullConsumers.get(route))
       .ifPresent(consumer -> consumer.accept(envelope, message));
   }

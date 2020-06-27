@@ -30,35 +30,28 @@ public class ServerRouterTest {
   }
 
   @Test
-  public void testEnvelopeOnly() {
-    Envelope envelope = new Envelope(UUID.randomUUID(), "my route", EMPTY_MAP);
-    Consumer<Envelope> consumer = mock(Consumer.class);
-    router.register("my route", consumer);
-
-    router.route("my route", envelope);
-
-    verify(consumer).accept(envelope);
-  }
-
-  @Test
   public void testWithBody() {
+    Envelope envelope = new Envelope(UUID.randomUUID(), "my route", EMPTY_MAP);
     setupTransformerToString();
+    setupTransformerEnvelope(envelope);
 
     String message = "message";
-    InputStream messageIS = stringToInputStream(message);
 
-    Envelope envelope = new Envelope(UUID.randomUUID(), "my route", EMPTY_MAP);
+    Consumer<Envelope> consumerEnvelope = mock(Consumer.class);
     BiConsumer<Envelope, String> consumer = mock(BiConsumer.class);
 
+    router.register("my route", consumerEnvelope);
     router.register("my route", consumer, String.class);
 
-    router.route("my route", envelope, messageIS);
+    router.route(stringToInputStream(message));
 
+    verify(consumerEnvelope).accept(envelope);
     verify(consumer).accept(envelope, "message");
   }
 
-  static ByteArrayInputStream stringToInputStream(String message) {
-    return new ByteArrayInputStream(message.getBytes(UTF_8));
+  private void setupTransformerEnvelope(Envelope envelope) {
+    given(transformer.envelope(any()))
+      .willReturn(envelope);
   }
 
   private void setupTransformerToString() {
@@ -66,7 +59,11 @@ public class ServerRouterTest {
       .willAnswer(arg -> inputStreamToString(arg));
   }
 
-  private String inputStreamToString(InvocationOnMock arg) {
+  private static ByteArrayInputStream stringToInputStream(String message) {
+    return new ByteArrayInputStream(message.getBytes(UTF_8));
+  }
+
+  private static String inputStreamToString(InvocationOnMock arg) {
     var inputStream = arg.getArgument(0, InputStream.class);
     String result = new BufferedReader(new InputStreamReader(inputStream)).lines().parallel().collect(Collectors.joining("\n"));
     return result;
